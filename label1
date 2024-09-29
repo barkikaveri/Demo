@@ -1,0 +1,37 @@
+pipeline {
+    agent none
+    stages {
+        stage('build') {
+            agent { label 'master' }
+            steps {
+                echo "This building is running on master"
+                sh '''
+                ls
+                pwd
+                '''
+            }  
+        }
+        stage('deploy') {
+            agent { label 'slave' }
+            steps {
+                sh '''
+                pwd
+                ls
+                echo "This deploy is running on slave"
+                '''
+            }
+        }
+        stage('testing') {
+            agent any
+            steps {
+                echo "Testing"
+            }
+        }
+        stage('release') {
+            agent { label 'slave' }
+            steps {
+                echo "This release is running on slave"
+            }  
+        }
+    }
+}
