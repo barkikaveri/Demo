@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build and Deploy') {
+            parallel {
+                stage('build') {
+                    steps {
+                        sh '''
+                        echo "This is build stage"
+                        ls 
+                        pwd
+                        '''
+                    }
+                }
+                stage('deploy') {
+                    steps {
+                        echo "This is deploy stage"
+                    }
+                }
+            } 
+        } 
+        stage('testing') {
+            steps {
+                sh '''
+                ls -a
+                echo "This is testing stage"
+                '''
+            }
+        }
+        stage('release') {
+            steps {
+                echo "This is release stage"
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
+        }
+    }
+}
