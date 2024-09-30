@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'BRANCH', description: 'Enter the branch to build', defaultValue: 'main')
+        string(name: 'GIT_REPO', description: 'Enter the repo URL', defaultValue: 'https://github.com/barkikaveri/Demo.git')
+        choice(name: 'STAGE', choices: ['build', 'deploy'], description: 'Stages to build') // Fixed 'Choice' to 'choice'
+    }
+    stages {
+        stage('BUILD') {
+            steps {
+                script {
+                    if (params.STAGE == 'build') {
+                        git branch: "${params.BRANCH}", url: "${params.GIT_REPO}"
+                        sh '''
+                        ls
+                        pwd
+                        echo "This is the build stage"
+                        '''
+                    }
+                }
+            }
+        }
+        stage('DEPLOY') {
+            steps {
+                script {
+                    if (params.STAGE == 'deploy') {
+                        echo "Branch: ${params.BRANCH}"
+                        echo "Repository: ${params.GIT_REPO}"
+                    }
+                }
+            }
+        }
+    }
+}
