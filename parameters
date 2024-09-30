@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'BRANCH', description: 'This is a test parameter', defaultValue: 'main')
+        string(name: 'GIT_REPO', description: 'This is a test parameter', defaultValue: 'https://github.com/barkikaveri/Demo.git')
+    }
+    stages {
+        stage('BUILD') {
+            steps {
+                git branch: "${params.BRANCH}", url: "${params.GIT_REPO}"
+                sh '''
+                ls
+                pwd
+                echo "This is build stage"
+                '''
+            }
+        }
+        stage('DEPLOY') {
+            steps {
+                echo "Branch: ${params.BRANCH}"
+                echo "Repository: ${params.GIT_REPO}"
+            }
+        }
+    }
+}
