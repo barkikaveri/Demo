@@ -1,0 +1,23 @@
+pipeline{
+    agent any
+    environment{
+        BRANCH = 'main'
+        GIT_REPO = 'https://github.com/barkikaveri/Demo.git'
+    }
+    stages{
+        stage('BUILD'){
+            steps{
+                sh ''''
+                ls 
+                pwd
+                '''
+                echo "git branch:$BRANCH, url:$GIT_REPO"
+            }
+        }
+        stage('DEPLOY'){
+            steps{
+                echo "Deploying.."
+            }
+        }
+    }
+}
