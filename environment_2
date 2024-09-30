@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    environment {
+        BRANCH = 'main'
+        PROJECT = 'my app'
+    }
+    stages {
+        stage('build') {
+            steps {
+                echo "${BRANCH} ${PROJECT}"
+            }
+        }
+        stage('deploy') {
+            environment {
+                NODE_NAME = "this deploy is running on ${BRANCH}"
+            }
+            steps {
+                echo "${NODE_NAME}"
+            }
+        }
+    }
+}
